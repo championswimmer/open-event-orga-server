@@ -19,7 +19,7 @@ workon oe
 #echo "Freezing reqs"
 #pip freeze > requirements.txt
 echo "Installing Requirements"
-pip install -r requirements.txt
+pip install -r /vagrant/requirements.txt
 
 /vagrant/scripts/postgres_provision.sh
 

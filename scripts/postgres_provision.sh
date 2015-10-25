@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "Starting Postgres provision"
 APP_DB_NAME=test
 APP_DB_USER=open_event_user
@@ -92,4 +93,6 @@ CREATE DATABASE $APP_DB_NAME WITH OWNER=$APP_DB_USER
                                   TEMPLATE=template0;
 EOF
 
+echo ""
+print_db_usage
 echo "Successfully created PostgreSQL dev virtual machine."
