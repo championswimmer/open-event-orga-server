@@ -23,20 +23,9 @@ pip install -r /vagrant/requirements.txt
 
 /vagrant/scripts/postgres_provision.sh
 
-echo ""
-print_db_usage
-
 echo "PWD=$PWD"
-cd /vagrant
 echo "Creating DB models"
-cat << EOF | python
-from open_event import app
-from open_event.models import db
-
-with app.app_context():
-	db.create_all()
-EOF
+python /vagrant/script/create_models.py
 
 # Tag the provision time:
 date > "$PROVISIONED_ON"
-
