@@ -19,10 +19,6 @@ APP_DB_PASS=start
 # Edit the following to change the name of the database that is created (defaults to the user name)
 APP_DB_NAME=test
 
-# Edit the following to change the version of PostgreSQL that is installed
-PG_VERSION=9.4
-
-echo "Using PG $PG_VERSION"
 
 ###########################################################
 # Changes below this line are probably not necessary
@@ -77,6 +73,11 @@ fi
 apt-get update
 apt-get -y upgrade
 
+# Edit the following to change the version of PostgreSQL that is installed
+PG_VERSION=9.4
+
+echo "Using PG $PG_VERSION"
+
 apt-get -y install "postgresql-$PG_VERSION" "postgresql-contrib-$PG_VERSION"
 
 PG_CONF="/etc/postgresql/$PG_VERSION/main/postgresql.conf"
@@ -115,6 +116,7 @@ echo ""
 print_db_usage
 
 cd /vagrant
+echo "Creating DB models"
 cat << EOF | python
 from open_event import app
 from open_event.models import db
