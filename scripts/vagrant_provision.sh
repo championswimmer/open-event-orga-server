@@ -1,31 +1,26 @@
 #!/usr/bin/env bash
 # Install essential packages from Apt
+
+export DEBIAN_FRONTEND=noninteractive
 apt-get update -y
 # Python dev packages
 apt-get install -y build-essential python python-dev python-setuptools python-pip \
 	libxml2-dev libxslt1-dev nginx uwsgi uwsgi-plugin-python                      \
 	postgresql postgresql-contrib libpq-dev
 
-
+# we want these system-wide
 pip install virtualenv virtualenvwrapper
-export WORKON_HOME=$HOME/.virtualenvs
-echo "WORKON_HOME=$WORKON_HOME"
-source /usr/local/bin/virtualenvwrapper.sh
 
-mkvirtualenv oe
-workon oe
+# add a dedicated user instead of root
+useradd oe
+mkdir /home/oe
+chown oe:oe /home/oe
 
-# this is convenient but not always what is wanted
-#echo "Freezing reqs"
-#pip freeze > requirements.txt
-echo "Installing Requirements"
-pip install -r /vagrant/requirements.txt
+sudo -u oe /vagrant/scripts/user_provision.sh
 
-/vagrant/scripts/postgres_provision.sh
+# /vagrant/scripts/postgres_provision.sh
 
 echo "PWD=$PWD"
 echo "Creating DB models"
-python /vagrant/script/create_models.py
 
-# Tag the provision time:
-date > "$PROVISIONED_ON"
+sudo -u oe /vagrant/scripts/create_models.sh

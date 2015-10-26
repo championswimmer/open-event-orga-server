@@ -31,17 +31,6 @@ print_db_usage () {
   echo "  PGUSER=$APP_DB_USER PGPASSWORD=$APP_DB_PASS psql -h localhost -p 15432 $APP_DB_NAME"
 }
 
-export DEBIAN_FRONTEND=noninteractive
-
-PROVISIONED_ON=/etc/vm_provision_on_timestamp
-if [ -f "$PROVISIONED_ON" ]
-then
-  echo "VM was already provisioned at: $(cat $PROVISIONED_ON)"
-  echo "To run system updates manually login via 'vagrant ssh' and run 'apt-get update && apt-get upgrade'"
-  echo ""
-  print_db_usage
-  exit
-fi
 
 PG_REPO_APT_SOURCE=/etc/apt/sources.list.d/pgdg.list
 if [ ! -f "$PG_REPO_APT_SOURCE" ]
